@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="editors-xtd" method="upgrade">
+    <name>Tags - Editor Button</name>
+    <version>0.1.0</version>
+    <creationDate>July 2010</creationDate>
+    <author>Dioscouri</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <copyright>2010 Dioscouri.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>PLG_EDITORS-XTD_TAGS</description>
+    
+    <files>
+        <filename plugin="tags">tags.php</filename>
+        <folder>tags</folder>
+    </files>
+    
+    <languages>
+		<language tag="en-GB">languages/en-GB.plg_editors-xtd_tags.ini</language>
+	</languages>        
+</install>

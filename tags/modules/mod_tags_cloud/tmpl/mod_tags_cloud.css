@@ -1,0 +1,52 @@
+div.mod_tags_cloud_items_default div.mod_tags_cloud_item {
+	float: left; 
+	padding: 5px;
+}
+
+div.mod_tags_cloud_items_list div.mod_tags_cloud_item {
+
+}
+
+div.mod_tags_cloud_size_1 {
+    font-size: 70%;
+}
+
+div.mod_tags_cloud_size_2 {
+    font-size: 85%;
+}
+
+div.mod_tags_cloud_size_3 {
+    font-size: 100%;
+}
+
+div.mod_tags_cloud_size_4 {
+    font-size: 115%;
+}
+
+div.mod_tags_cloud_size_5 {
+    font-size: 130%;
+}
+
+div.mod_tags_cloud_size_6 {
+    font-size: 145%;
+}
+
+div.mod_tags_cloud_size_7 {
+    font-size: 160%;
+    font-weight: bold;
+}
+
+div.mod_tags_cloud_size_8 {
+    font-size: 175%;
+    font-weight: bold;
+}
+
+div.mod_tags_cloud_size_9 {
+    font-size: 190%;
+    font-weight: bold;
+}
+
+div.mod_tags_cloud_size_10 {
+    font-size: 210%;
+    font-weight: bold;
+}

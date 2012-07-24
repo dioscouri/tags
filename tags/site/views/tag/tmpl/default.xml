@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="TAGS TAG DEFAULT LAYOUT">
+		<message>
+			<![CDATA[TAGS TAG DEFAULT LAYOUT DESC]]>
+		</message>
+	</layout>
+	
+	<fields name="request">
+		<fieldset name="request"
+			addfieldpath="/administrator/components/com_tags/elements">
+			<field name="id" type="tagstag"
+				label="Select Tag"
+				required="true"
+				description="A Tag ID"
+			/>
+		</fieldset>
+	</fields>
+	<state>
+		<name>TAGS TAGS DEFAULT LAYOUT</name>
+		<description>TAGS TAG DEFAULT LAYOUT DESC</description>
+        <url addpath="/administrator/components/com_tags/elements">
+            <param name="id" type="tagstag" section="com_tags" default="" label="Select Tag" description="A Tag ID" />
+            <param name="layout" type="hidden" section="com_tags" default="default" />
+            <param name="task" type="hidden" section="com_tags" default="display" />            
+        </url>
+	</state>
+</metadata>

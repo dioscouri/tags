@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<menu>
+   <link>
+       <name>Tagged Items</name>
+       <url>index.php?option=com_tags&#38;view=relationships</url>
+   </link>
+   <link>
+       <name>Tags</name>
+       <url>index.php?option=com_tags&#38;view=tags</url>
+   </link>
+   <link>
+       <name>Scopes</name>
+       <url>index.php?option=com_tags&#38;view=scopes</url>
+   </link>
+   
+  <!-- <link>
+       <name>Tools</name>
+       <url>index.php?option=com_tags&#38;view=tools</url>
+	   </link> -->
+   
+   <link>
+       <name>Configuration</name>
+       <url>index.php?option=com_tags&#38;view=config</url>
+   </link>
+</menu>

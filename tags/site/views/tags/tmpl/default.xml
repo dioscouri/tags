@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="TAGS TAGS DEFAULT LAYOUT">
+		<message>
+			<![CDATA[TAGS TAGS DEFAULT LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>TAGS TAGS DEFAULT LAYOUT</name>
+		<description>TAGS TAGS DEFAULT LAYOUT DESC</description>
+		
+		<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request"
+			addfieldpath="/administrator/components/com_tags/elements">
+			<field name="id" type="tagsscope"
+				label="Select Scope"
+				required="true"
+				description="A Scope ID"
+			/>
+		</fieldset>
+	</fields>
+		
+        <url addpath="/administrator/components/com_tags/elements">
+            <param name="id" type="tagsscope" section="com_tags" default="" label="Select Scope" description="A Scope ID" />
+            <param name="layout" type="hidden" section="com_tags" default="default" />
+            <param name="task" type="hidden" section="com_tags" default="display" /> 
+        </url>
+	</state>
+</metadata>

@@ -2,9 +2,7 @@
 <?php JHTML::_('script', 'tags.js', 'media/com_tags/js/'); ?>
 <?php $state = @$this->state; ?>
 <?php $form = @$this->form; ?>
-<?php $items = @$this->items; 
-
-?>
+<?php $items = @$this->items; ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
@@ -17,7 +15,7 @@
             <td nowrap="nowrap">
                 <input name="filter" value="<?php echo @$state->filter; ?>" />
                 <button onclick="this.form.submit();"><?php echo JText::_('Search'); ?></button>
-                <button onclick="tagsFormReset(this.form);"><?php echo JText::_('Reset'); ?></button>
+                <button onclick="Dsc.resetFormFilters(this.form);"><?php echo JText::_('Reset'); ?></button>
             </td>
         </tr>
     </table>

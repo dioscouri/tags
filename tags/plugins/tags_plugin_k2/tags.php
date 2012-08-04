@@ -117,7 +117,7 @@ class plgK2Tags extends K2Plugin
 	    $model = JModel::getInstance( 'Scopes', 'TagsModel' );
 		$model->setState( 'select', 'tbl.scope_id' );
 		$model->setState( 'filter_name', 'K2 Item' );
-		$model->setState( 'filter_identifier', 'com_k2&view=item' );
+		$model->setState( 'filter_identifier', 'com_k2.item' );
 		$model->setState( 'filter_url', 'index.php?option=com_k2&view=item&id=' );
 		$model->setState( 'filter_table', '#__k2_items' );
 		$model->setState( 'filter_table_field', 'id' );
@@ -128,7 +128,7 @@ class plgK2Tags extends K2Plugin
 		
 			$table = $model->getTable();
 			$table->scope_name			   = 'K2 Item';
-			$table->scope_identifier       = 'com_k2&view=item';
+			$table->scope_identifier       = 'com_k2.item';
         	$table->scope_url              = 'index.php?option=com_k2&view=item&id=';
        		$table->scope_table            = '#__k2_items';
         	$table->scope_table_field      = 'id';

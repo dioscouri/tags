@@ -27,6 +27,7 @@
 
     <!-- auto values but should be checked -->
     <property name="cfg.comName" value="${cfg.name}" />
+    <property name="cfg.buildDir" value="${cfg.buildDirRoot}/${cfg.name}" />
     <property name="cfg.comDir" value="${basedir}/${cfg.comName}" />
     <property name="cfg.buildVersionDir" value="${cfg.buildDir}" />
     <property name="cfg.plgPrefix" value="tags_plugin_" />
@@ -153,7 +154,7 @@
     <target name="build_modules" description="packages any modules">
         <!-- add all module directories here -->
         <!-- EX: <zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}cloud.zip" basedir="${cfg.comDir}/${cfg.modPrefix}cloud" /> -->
-    	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}cloud.zip" basedir="${cfg.comDir}/${cfg.modPrefix}cloud" />
+    	<zip destfile="${cfg.buildDir}/modules/${cfg.modPrefix}cloud.zip" basedir="${cfg.comDir}/modules/${cfg.modPrefix}cloud" />
     </target>
     
     <target name="build_languages" depends="init" description="packages any languages">

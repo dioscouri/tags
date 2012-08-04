@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `#__tags_config` (
   `value` TEXT NOT NULL ,
   PRIMARY KEY (`config_id`) 
 )
-TYPE = MyISAM
+ENGINE=MyISAM
 DEFAULT CHARACTER SET = utf8;
 
 -- --------------------------------------------------------

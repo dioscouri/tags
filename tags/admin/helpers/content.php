@@ -24,13 +24,13 @@ class TagsHelperContent extends DSCHelperDiagnostics
      * @param void
      * @return unknown_type
      */    
-    function getContentScopeId()
+    function getArticleScopeId()
     {    	
     	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'models' );
 	    $model = JModel::getInstance( 'Scopes', 'TagsModel' );
 		$model->setState( 'select', 'tbl.scope_id' );
 		$model->setState( 'filter_name', 'Content Article' );
-		$model->setState( 'filter_identifier', 'com_content&view=article' );
+		$model->setState( 'filter_identifier', 'com_content.article' );
 		$model->setState( 'filter_url', 'index.php?option=com_content&view=article&id=' );
 		$model->setState( 'filter_table', '#__content' );
 		$model->setState( 'filter_table_field', 'id' );
@@ -41,7 +41,7 @@ class TagsHelperContent extends DSCHelperDiagnostics
 		
 			$table = $model->getTable();
 			$table->scope_name			   = 'Content Article';
-			$table->scope_identifier       = 'com_content&view=article';
+			$table->scope_identifier       = 'com_content.article';
         	$table->scope_url              = 'index.php?option=com_content&view=article&id=';
        		$table->scope_table            = '#__content';
         	$table->scope_table_field      = 'id';
@@ -65,7 +65,7 @@ class TagsHelperContent extends DSCHelperDiagnostics
     {
     	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'models' );
     	$model = JModel::getInstance( 'Relationships', 'TagsModel' );
-		$model->setState( 'filter_scopeid', $this->getContentScopeId() );
+		$model->setState( 'filter_scopeid', $this->getArticleScopeId() );
 		$model->setState( 'filter_item_exact', $article_id );
 		$model->setState( 'order','tag.tag_name' );
 		$tags = $model->getList();     

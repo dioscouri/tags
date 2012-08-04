@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="content" method="upgrade">
-    <name>Tags - Content</name>
+    <name>Content - Tags</name>
     <version>0.1.0</version>
     <creationDate>July 2010</creationDate>
     <author>Dioscouri</author>

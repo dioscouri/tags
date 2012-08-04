@@ -13,11 +13,11 @@ defined('_JEXEC') or die('Restricted access');
 /** Import library dependencies */
 jimport('joomla.plugin.plugin');
 
-class plgContentTags extends JPlugin
+class plgContentTags extends DSCPlugin
 {
     var $_element = 'tags';
     
-    function __construct( &$subject, $params )
+    public function __construct( &$subject, $params )
     {
         $editor = JFactory::getEditor();
         parent::__construct( $subject, $params );
@@ -30,7 +30,7 @@ class plgContentTags extends JPlugin
      * @return mixed Parameter value
      * @since 1.5
      */
-    function _isMe( $row ) 
+    protected function _isMe( $row ) 
     {
         $element = $this->_element;
         $success = false;
@@ -61,12 +61,11 @@ class plgContentTags extends JPlugin
         $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
         
         // convert elements to array that can be binded
-        Tags::load( 'TagsHelperBase', 'helpers._base' );
-        $helper = TagsHelperBase::getInstance();
+        $helper = new DSCHelper();
         $submitted_values = $helper->elementsToArray( $elements );
         
         // prepare needed variables              
-        $article_id = $submitted_values['id'];
+        $article_id = $this->getIDFromRequest( $submitted_values );
         $tag_name = trim( $submitted_values['tag_name'] );
         $user = JFactory::getUser(); 
         
@@ -117,7 +116,7 @@ class plgContentTags extends JPlugin
 			    JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'tables' );
 			    $relations_table = JTable::getInstance('Relationships', 'TagsTable');
 			    $relations_table->tag_id = $tag_id;
-			    $relations_table->scope_id = $content_helper->getContentScopeId();
+			    $relations_table->scope_id = $content_helper->getArticleScopeId();
 			    $relations_table->item_value = $article_id;
 			    $relations_table->created_by = $user->id;
 			    $relations_table->save();
@@ -162,7 +161,7 @@ class plgContentTags extends JPlugin
      * Enter description here ...
      * @return unknown_type
      */
-    function removeTag( $element  )
+    public function removeTag( $element  )
     {
         if (!$this->_isMe( $element) )
         {
@@ -172,11 +171,10 @@ class plgContentTags extends JPlugin
         $elements = json_decode( preg_replace('/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
         
         // convert elements to array that can be binded
-        Tags::load( 'TagsHelperBase', 'helpers._base' );
-        $helper = TagsHelperBase::getInstance();
+        $helper = new DSCHelper();
         $submitted_values = $helper->elementsToArray( $elements );
         
-        $article_id = $submitted_values['id'];
+        $article_id = $this->getIDFromRequest( $submitted_values );
         
         if ( !empty($article_id) )
         {
@@ -230,16 +228,37 @@ class plgContentTags extends JPlugin
     }
         
     /**
-     * Example after save content method
-     * Article is passed by reference, but after the save, so no changes will be saved.
-     * Method is called right after the content is saved
-     *
-     *
-     * @param   object      A JTableContent object
-     * @param   bool        If the content is just about to be created
-     * @return  void
+     * 
+     * @param unknown_type $article
+     * @param unknown_type $isNew
+     * @return boolean
      */
-    function onAfterContentSave( &$article, $isNew )
+    public function onAfterContentSave( &$article, $isNew )
+    {
+        $context = 'com_content.form';
+        return $this->doContentSave($context, $article, $isNew);            
+    }
+    
+    /**
+     * 
+     * @param unknown_type $context
+     * @param unknown_type $article
+     * @param unknown_type $isNew
+     * @return boolean
+     */
+    public function onContentAfterSave($context, &$article, $isNew)
+    {
+        return $this->doContentSave($context, $article, $isNew);
+    }
+    
+    /**
+     * 
+     * @param unknown_type $context
+     * @param unknown_type $article
+     * @param unknown_type $isNew
+     * @return boolean
+     */
+    private function doContentSave($context, &$article, $isNew)
     {
         // this plugin event is triggered after an article is saved.  
         // You will need to use it to save the tags that are added to NEW content articles
@@ -290,7 +309,7 @@ class plgContentTags extends JPlugin
 			    JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'tables' );
 			    $relations_table = JTable::getInstance('Relationships', 'TagsTable');
 			    $relations_table->tag_id = $tag_id;
-			    $relations_table->scope_id = $content_helper->getContentScopeId();
+			    $relations_table->scope_id = $content_helper->getArticleScopeId();
 			    $relations_table->item_value = $article_id;
 			    $relations_table->created_by = $user->id;
 			    
@@ -308,16 +327,42 @@ class plgContentTags extends JPlugin
         return true;
     }
     
-	/**
-     * Delete relationships on deletion of article     
-     *
-     * @param   int 		the article id
+    /**
+     * 
+     * @param unknown_type $article
+     * @param unknown_type $isNew
+     * @return boolean
      */
-    function content_onAfterDeleteArticle( $article_id )
+    public function onAfterContentDelete( $article )
+    {
+        $context = 'com_content.form';
+        return $this->doContentSave($context, $article);            
+    }
+    
+    /**
+     * 
+     * @param unknown_type $context
+     * @param unknown_type $article
+     * @param unknown_type $isNew
+     * @return boolean
+     */
+    public function onContentAfterDelete($context, $article)
+    {
+        return $this->doContentSave($context, $article);
+    }
+    
+    /**
+     * 
+     * @param unknown_type $context
+     * @param unknown_type $article
+     * @param unknown_type $isNew
+     * @return boolean
+     */
+    private function doContentDelete($context, $article)
     {
     	JLoader::register('TagsHelperContent', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'helpers'.DS.'content.php');
 	    $content_helper = new TagsHelperContent(); 
-    	$scope_id = $content_helper->getContentScopeId();
+    	$scope_id = $content_helper->getArticleScopeId();
     	
     	JLoader::register('TagsHelperTags', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'helpers'.DS.'tags.php');
         $helper = new TagsHelperTags();
@@ -334,7 +379,7 @@ class plgContentTags extends JPlugin
      * @param   object      The article params
      * @param   int         The 'page' number
      */
-    function onPrepareContent( &$article, &$params, $limitstart )
+    public function onPrepareContent( &$article, &$params, $limitstart )
     {
     	   
     }
@@ -349,7 +394,7 @@ class plgContentTags extends JPlugin
      * @param   int         The 'page' number
      * @return  string
      */
-    function onAfterDisplayTitle( &$article, &$params, $limitstart )
+    public function onAfterDisplayTitle( &$article, &$params, $limitstart )
     {
         return '';
     }
@@ -364,7 +409,7 @@ class plgContentTags extends JPlugin
      * @param   int         The 'page' number
      * @return  string
      */
-    function onBeforeDisplayContent( &$article, &$params, $limitstart )
+    public function onBeforeDisplayContent( &$article, &$params, $limitstart )
     {
         return '';
     }
@@ -379,7 +424,7 @@ class plgContentTags extends JPlugin
      * @param   int         The 'page' number
      * @return  string
      */
-    function onAfterDisplayContent( &$article, &$params, $limitstart )
+    public function onAfterDisplayContent( &$article, &$params, $limitstart )
     {
         return '';
     }
@@ -394,50 +439,26 @@ class plgContentTags extends JPlugin
      * @return string
      * @access protected
      */
-    function getLayout($layout, $vars = false, $plugin = '', $group = 'content' )
+    private function getLayout($layout, $vars = false, $plugin = '', $group = 'content' )
     {
-        if (empty($plugin)) 
-        {
-            $plugin = $this->_element;
-        }
-        
-        ob_start();
-        $layout = $this->getLayoutPath( $plugin, $group, $layout ); 
-        include($layout);
-        $html = ob_get_contents(); 
-        ob_end_clean();
-        
-        return $html;
+        return parent::_getLayout( $layout, $vars, $plugin, $group );
     }
     
-    
     /**
-     * Get the path to a layout file
-     *
-     * @param   string  $plugin The name of the plugin file
-     * @param   string  $group The plugin's group
-     * @param   string  $layout The name of the plugin layout file
-     * @return  string  The path to the plugin layout file
-     * @access protected
+     * 
+     * @param unknown_type $submitted_values
      */
-    function getLayoutPath($plugin, $group, $layout = 'default')
+    private function getIDFromRequest( $submitted_values )
     {
-        $app = JFactory::getApplication();
-
-        // get the template and default paths for the layout
-        $templatePath = JPATH_SITE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.'plugins'.DS.$group.DS.$plugin.DS.$layout.'.php';
-        $defaultPath = JPATH_SITE.DS.'plugins'.DS.$group.DS.$plugin.DS.'tmpl'.DS.$layout.'.php';
-
-        // if the site template has a layout override, use it
-        jimport('joomla.filesystem.file');
-        if (JFile::exists( $templatePath )) 
-        {
-            return $templatePath;
-        } 
-            else 
-        {
-            return $defaultPath;
+        if(version_compare(JVERSION,'1.6.0','ge')) {
+            // Joomla! 1.6+ code here
+            $id = !empty($submitted_values['jform']['id']) ? $submitted_values['jform']['id'] : ''; 
+        } else {
+            // Joomla! 1.5 code here
+            $id = !empty($submitted_values['id']) ? $submitted_values['id'] : '';
         }
+        
+        return $id;
     }
 
 }

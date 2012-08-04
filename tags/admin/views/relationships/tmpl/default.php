@@ -20,7 +20,7 @@
             <td nowrap="nowrap">
                 <input name="filter" value="<?php echo @$state->filter; ?>" />
                 <button onclick="this.form.submit();"><?php echo JText::_('Search'); ?></button>
-                <button onclick="tagsFormReset(this.form);"><?php echo JText::_('Reset'); ?></button>
+                <button onclick="Dsc.resetFormFilters(this.form);"><?php echo JText::_('Reset'); ?></button>
             </td>
         </tr>
     </table>

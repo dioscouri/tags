@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 /** Import library dependencies */
 jimport('joomla.plugin.plugin');
 
-class plgButtonTags extends JPlugin
+class plgButtonTags extends DSCPlugin
 {
     var $_element = 'tags';
     
@@ -91,7 +91,7 @@ class plgButtonTags extends JPlugin
         }
         
         ob_start();
-        $layout = $this->getLayoutPath( $plugin, $group, $layout ); 
+        $layout = $this->_getLayoutPath( $plugin, $group, $layout ); 
         include($layout);
         $html = ob_get_contents(); 
         ob_end_clean();
@@ -99,34 +99,5 @@ class plgButtonTags extends JPlugin
         return $html;
     }
     
-    
-    /**
-     * Get the path to a layout file
-     *
-     * @param   string  $plugin The name of the plugin file
-     * @param   string  $group The plugin's group
-     * @param   string  $layout The name of the plugin layout file
-     * @return  string  The path to the plugin layout file
-     * @access protected
-     */
-    function getLayoutPath($plugin, $group, $layout = 'default')
-    {
-        $app = JFactory::getApplication();
-
-        // get the template and default paths for the layout
-        $templatePath = JPATH_SITE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.'plugins'.DS.$group.DS.$plugin.DS.$layout.'.php';
-        $defaultPath = JPATH_SITE.DS.'plugins'.DS.$group.DS.$plugin.DS.'tmpl'.DS.$layout.'.php';
-
-        // if the site template has a layout override, use it
-        jimport('joomla.filesystem.file');
-        if (JFile::exists( $templatePath )) 
-        {
-            return $templatePath;
-        } 
-            else 
-        {
-            return $defaultPath;
-        }
-    }
 }
 ?>

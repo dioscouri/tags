@@ -82,7 +82,7 @@
         <!-- Sample: -->
         <!-- Instructions: plugin="package_folder_containing_plugin_files" element="plugin_filename" -->
 		<!-- <plugin plugin="tags_plugin_user" publish="false" group="user" element="tags" /> -->
-        <!--<plugin plugin="tags_plugin_editors-xtd" publish="true" group="editors-xtd" element="tags" />-->
+        <plugin plugin="plugins/tags_plugin_editors-xtd" publish="true" group="editors-xtd" element="tags" />
         <plugin plugin="plugins/tags_plugin_content" publish="true" group="content" element="tags" />
         <!--<plugin plugin="tags_plugin_k2" publish="true" group="k2" element="tags" />-->
 	</plugins>

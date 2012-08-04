@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `#__tags_tags` (
   `tag_name` varchar(255) NOT NULL,
   `tag_alias` varchar(255) NOT NULL,
   `uses` int(11) NOT NULL,
+  `admin_only` tinyint(1) NOT NULL,
   `created_by` int(11) NOT NULL,
   `created_datetime` datetime NOT NULL COMMENT 'Always in GMT',
   PRIMARY KEY (`tag_id`)

@@ -52,6 +52,7 @@ class modTagsCloudHelper extends JObject
 	        $model->setState( 'limit', $this->params->get( 'max_results', '15') );
 	        $model->setState( 'order', 'tbl.tag_name' );
 	        $model->setState( 'direction', 'ASC' );
+	        $model->setState( 'filter_admin', '0' );
 	        
 	        $max = $model->getMaxUses();
 	        $min = $model->getMinUses();
@@ -81,6 +82,8 @@ class modTagsCloudHelper extends JObject
 	        $model->setState( 'limit', $this->params->get( 'max_results', '15') );
 	        $model->setState( 'order', 'tag.tag_name' );
 	        $model->setState( 'direction', 'ASC' );
+	        $model->setState( 'filter_admin', '0' );
+	        
 	        if( !empty($scopes) && is_array($scopes) )
 	        {
 	        	$model->setState( 'filter_scopes', $scopes);

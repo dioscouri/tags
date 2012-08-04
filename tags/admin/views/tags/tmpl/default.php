@@ -38,6 +38,9 @@
                 <th style="width: 50px;">
                     <?php echo TagsGrid::sort( 'Uses', "tbl.uses", @$state->direction, @$state->order ); ?>
                 </th>
+                <th style="width: 50px;">
+                    <?php echo TagsGrid::sort( 'Admin Only?', "tbl.admin_only", @$state->direction, @$state->order ); ?>
+                </th>
                 <th style="width: 150px;">
                     
                 </th>
@@ -66,6 +69,9 @@
                             <span class="label"><?php echo JText::_("To"); ?>:</span> <input name="filter_uses_to" value="<?php echo @$state->filter_uses_to; ?>" size="5" class="input" />
                         </div>
                     </div>
+                </th>
+                <th>
+                    <?php echo TagsSelect::booleans( @$state->filter_admin, 'filter_admin', $attribs, 'filter_admin', true, null, 'Yes', 'No' ); ?>
                 </th>
                 <th style="text-align: left;">
 
@@ -110,6 +116,9 @@
 				</td>
 				<td style="text-align: center;">
 					<?php echo $item->uses; ?>
+				</td>
+                <td style="text-align: center;">
+					<?php echo TagsGrid::enable( $item->admin_only, $i, 'admin_only.' ); ?>
 				</td>
                 <td style="text-align: center;">
                     [

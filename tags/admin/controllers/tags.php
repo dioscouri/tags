@@ -21,6 +21,8 @@ class TagsControllerTags extends TagsController
 		parent::__construct();
 		
 		$this->set('suffix', 'tags');
+		$this->registerTask( 'admin_only.enable', 'boolean' );
+		$this->registerTask( 'admin_only.disable', 'boolean' );
 	}
 
     /**
@@ -38,6 +40,7 @@ class TagsControllerTags extends TagsController
         $state = array();
 
         $state['filter_name']       = $app->getUserStateFromRequest($ns.'filter_name', 'filter_name', '', '');
+        $state['filter_admin']       = $app->getUserStateFromRequest($ns.'filter_admin', 'filter_admin', '', '');
         
         foreach (@$state as $key=>$value)
         {

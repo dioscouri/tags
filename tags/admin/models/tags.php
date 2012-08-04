@@ -25,7 +25,8 @@ class TagsModelTags extends TagsModelBase
         $filter_alias      = $this->getState('filter_alias');
         $filter_uses_from  = $this->getState('filter_uses_from');
         $filter_uses_to    = $this->getState('filter_uses_to');
-
+        $filter_admin      = $this->getState('filter_admin');
+        
        	if ($filter) 
        	{
 			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
@@ -87,6 +88,11 @@ class TagsModelTags extends TagsModelBase
         {
             $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_alias ) ) ).'%');
             $query->where('LOWER(tbl.tag_alias) LIKE '.$key);
+        }
+        
+        if (strlen($filter_admin))
+        {
+            $query->where('tbl.admin_only = '.(int) $filter_admin);
         }
     }
         	

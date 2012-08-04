@@ -23,6 +23,16 @@
                         <input name="tag_alias" value="<?php echo @$row->tag_alias; ?>" size="48" maxlength="250" type="text" />
                     </td>
                 </tr>
+                <tr>
+    				<td style="width: 100px; text-align: right;" class="key">
+    					<label for="admin_only">
+    						<?php echo JText::_( 'Admin Only' ); ?>:
+    					</label>
+    				</td>
+    				<td>
+    					<?php echo JHTML::_( 'select.booleanlist', 'admin_only', '', @$row->admin_only ); ?>
+    				</td>
+    			</tr>
 			</table>
 			<input type="hidden" name="id" value="<?php echo @$row->tag_id; ?>" />
 			<input type="hidden" name="task" value="" />

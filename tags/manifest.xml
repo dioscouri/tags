@@ -74,7 +74,7 @@
 	<!-- Modules -->	
 	<modules>
 		<!-- <module module="mod_whatever" publish="true" client="site"/> -->
-        <module module="modules/mod_tags_cloud" client="site" position="left" /> 
+        <module module="modules/mod_tags_cloud" client="site" /> 
 	</modules> 
 
 	<!-- Plugins -->

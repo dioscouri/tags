@@ -3,8 +3,8 @@
 <?php JHTML::_('stylesheet', 'tags.css', 'media/com_tags/css/'); ?>
 
 <?php
-	$tags = $vars->tags;
-	$removeUrl = 'index.php?format=raw&option=com_tags&view=tags&task=doTaskAjax&element=tags.content&elementTask=removeTag&relationship_id=';
+$tags = $this->tags;
+$removeUrl = 'index.php?option=com_tags&view=tags&task=removeTag&format=raw&scope='. $this->scope . '&identifier=' . $this->identifier . '&relationship_id=';
 ?>
 
 <?php if (!count(@$tags)) { ?>
@@ -18,7 +18,7 @@
         	<div class="tag_name">
         		<?php echo @$tag->tag_name; ?>
         	</div>
-        	<img src="<?php echo DSC::getURL('images'); ?>publish_x.png" class="x_img href" onclick="Dsc.doTask('<?php echo $removeUrl.$tag->relationship_id; ?>', 'added_tags', document.adminForm, 'Deleting');" />
+        	<img src="<?php echo DSC::getURL('images'); ?>publish_x.png" class="x_img href" onclick="Dsc.doTask('<?php echo $removeUrl.$tag->relationship_id; ?>', 'added_tags', this.form, 'Deleting');" />
     	</div>
 	<?php $i++; ?>
 	<?php endforeach; ?>

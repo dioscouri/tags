@@ -11,9 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-
-
-class TagsHelperPlugin extends DSCHelperDiagnostics
+class TagsHelperPlugin extends DSCHelperPlugin
 {
 	/**
 	 * Only returns plugins that have a specific event

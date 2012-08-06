@@ -47,56 +47,59 @@ class plgButtonTags extends DSCPlugin
     }
     
     /**
+     * Checks if extension is installed
+     *
+     * @return boolean
+     */
+    private function isInstalled()
+    {
+        $success = false;
+    
+        jimport('joomla.filesystem.file');
+        if (JFile::exists( JPATH_ADMINISTRATOR . '/components/com_tags/defines.php' ))
+        {
+            JLoader::register( "Tags", JPATH_ADMINISTRATOR . "components/com_ambra/defines.php" );
+    
+            $parentPath = JPATH_ADMINISTRATOR . '/components/com_tags/helpers';
+            DSCLoader::discover('TagsHelper', $parentPath, true);
+    
+            $parentPath = JPATH_ADMINISTRATOR . '/components/com_tags/library';
+            DSCLoader::discover('Tags', $parentPath, true);
+    
+            $helper = new TagsHelperContent();
+            if ($helper->getArticleScopeId())
+            {
+                $success = true;
+            }
+        }
+        return $success;
+    }
+    
+    /**
      *  
      * 
      * @param unknown_type $name
      */
     function onDisplay($name)
     {
+        if (!$this->isInstalled())
+        {
+            return '';
+        }
+        
         $option = JRequest::getVar('option');
         if ($option == 'com_content')
         {
             $id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
 	        $array = JRequest::getVar('cid', array( $id ), 'request', 'array');
 	        
-	        if (!empty($array[0]))
-	        {
-	        	JLoader::register('TagsHelperContent', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'helpers'.DS.'content.php');
-        		$helper = new TagsHelperContent();     
-	        	$tags = $helper->getTagsForArticle( $array[0] );
-	        }
+	        $identifier = @$array[0]; 
+	        $scope = 'com_content.article';
 	        
-	        $vars = new JObject();
-	        $vars->tags = @$tags;
-	        
-	        echo $this->getLayout('form', $vars);
+	        JLoader::register('TagsHelperTags', JPATH_ADMINISTRATOR . '/components/com_tags/helpers/tags.php');
+	        $helper = new TagsHelperTags();
+	        echo $helper->getForm( $identifier, $scope );
         }       
-    }
-    
-    /**
-     * Gets the parsed layout file
-     * 
-     * @param string $layout The name of  the layout file
-     * @param object $vars Variables to assign to
-     * @param string $plugin The name of the plugin
-     * @param string $group The plugin's group
-     * @return string
-     * @access protected
-     */
-    function getLayout($layout, $vars = false, $plugin = '', $group = 'editors-xtd' )
-    {
-        if (empty($plugin)) 
-        {
-            $plugin = $this->_element;
-        }
-        
-        ob_start();
-        $layout = $this->_getLayoutPath( $plugin, $group, $layout ); 
-        include($layout);
-        $html = ob_get_contents(); 
-        ob_end_clean();
-        
-        return $html;
     }
     
 }

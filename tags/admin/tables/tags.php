@@ -52,4 +52,19 @@ class TagsTableTags extends DSCTable
         
 		return true;
 	}
+	
+	function delete( $oid = null )
+	{
+	    $tag_id = !empty($oid) ? $oid : $this->tag_id;
+	    
+	    if ($return = parent::delete( $oid ))
+	    {
+	        $query = "DELETE FROM #__tags_relationships WHERE `tag_id` = '$tag_id';";
+	        $db = $this->getDBO();
+	        $db->setQuery($query);
+	        $db->query();
+	    }
+	     
+	    return $return;
+	}
 }

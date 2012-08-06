@@ -15,7 +15,6 @@ class TagsTableScopes extends DSCTable
 {
 	function TagsTableScopes( &$db ) 
 	{
-		
 		$tbl_key 	= 'scope_id';
 		$tbl_suffix = 'scopes';
 		$this->set( '_suffix', $tbl_suffix );
@@ -38,5 +37,20 @@ class TagsTableScopes extends DSCTable
             return false;
         }
 		return true;
+	}
+	
+	function delete( $oid = null )
+	{
+	    $scope_id = !empty($oid) ? $oid : $this->scope_id;
+	     
+	    if ($return = parent::delete( $oid ))
+	    {
+	        $query = "DELETE FROM #__tags_relationships WHERE `scope_id` = '$scope_id';";
+	        $db = $this->getDBO();
+	        $db->setQuery($query);
+	        $db->query();
+	    }
+	
+	    return $return;
 	}
 }

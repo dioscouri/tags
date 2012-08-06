@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `#__tags_scopes` (
   `scope_table` varchar(255) NOT NULL COMMENT 'The DB table to perform the JOIN',
   `scope_table_field` varchar(255) NOT NULL COMMENT 'The DB table field to use for the JOIN',
   `scope_table_name_field` varchar(255) NOT NULL COMMENT 'The DB table field to use for the item name',
+  `scope_params` text NOT NULL COMMENT 'JSON-encoded object with any other information you want to store about the scope',
   PRIMARY KEY (`scope_id`),
   KEY `scope_identifier` (`scope_identifier`)
 ) 

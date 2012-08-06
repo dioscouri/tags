@@ -11,10 +11,12 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-if ( !class_exists('Tags') ) 
+jimport('joomla.application.component.model');
+if ( !class_exists('Tags') ) {
     JLoader::register( "Tags", JPATH_ADMINISTRATOR.DS."components".DS."com_tags".DS."defines.php" );
+}
 
-class TagsHelperTags extends DSCHelperDiagnostics
+class TagsHelperTags extends JObject
 {
 	/**
 	 * Get tags for the tagged item
@@ -206,5 +208,124 @@ class TagsHelperTags extends DSCHelperDiagnostics
 		}
         
         return $relationship_id;		 
+	}
+	
+	/**
+	 * Loads the standard form for adding tags to an item
+	 * 
+	 * @param unknown_type $identifier
+	 * @param unknown_type $scope
+	 */
+	public function getForm( $identifier, $scope )
+	{
+	    $html = '';
+	    
+	    $app = JFactory::getApplication();
+	    JLoader::register( "TagsViewTags", JPATH_ADMINISTRATOR."/components/com_tags/views/tags/view.html.php" );
+
+	    $config = array();
+	    $config['base_path'] = JPATH_ADMINISTRATOR . "/components/com_tags";
+	    
+	    $view = new TagsViewTags( $config );
+	    $model = Tags::getClass("TagsModelRelationships", "models.relationships");
+	    if (empty($identifier)) 
+	    {
+	        $items = array();
+	    } 
+    	    else 
+	    {
+	        $model->setState('filter_item_exact', $identifier);
+	        $model->setState('filter_scope_identifier', $scope);
+	        $items = $model->getList();	        
+	    }
+	    
+	    $view->set( '_controller', 'tags' );
+	    $view->set( '_view', 'tags' );
+	    $view->set( '_doTask', true);
+	    $view->set( 'hidemenu', false);
+	    $view->setModel( $model, true );
+	    $view->assign( 'tags', $items );
+	    $view->assign( 'identifier', $identifier );
+	    $view->assign( 'scope', $scope );
+	    
+	    $view->setLayout( 'tags_form' );
+	    
+        $html = $view->loadTemplate();
+        
+        return $html;
+	}
+	
+	/**
+	 * Gets scope id
+	 *
+	 * @param void
+	 * @return unknown_type
+	 */
+	public function getScopeId( $scope )
+	{
+        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tags/tables' );
+        
+        $table = JTable::getInstance( 'Scopes', 'TagsTable' );
+        $table->load( array( 'scope_identifier'=>$scope ) );
+	        	
+        $scope_id = $table->scope_id;
+	
+	    return $scope_id;
+	}
+	
+	/**
+	 * Adds an array of tags (string names) to an item (as defined by identifier and scope) 
+	 * 
+	 * @param unknown_type $identifier
+	 * @param unknown_type $scope
+	 * @param array $tags
+	 */
+	public function addRelationships( $identifier, $scope, $tags=array() )
+	{
+	    JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'tables' );
+	    JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'models' );
+
+	    $rmodel = JModel::getInstance('Relationships', 'TagsModel');
+	    $rmodel->setState( 'filter_scope_identifier', $scope );
+	    $rmodel->setState( 'filter_item_exact', $identifier );
+	    $current_tags = $rmodel->getList();
+	    
+	    foreach ($tags as $tag) 
+	    {
+	        $relationship_already_exists = false;
+	        foreach (@$current_tags as $tag)
+	        {
+	            if( @$tag->tag_name == $tag_name )
+	            {
+	                $relationship_already_exists = true;
+	            }
+	        }
+	        
+	        if (!$relationship_already_exists)
+	        {
+	            // get tag_id by tag_name if it doesn't exisists then create new one
+	            $model = JModel::getInstance('Tags', 'TagsModel');
+	            $model->setState( 'select', 'tbl.tag_id');
+	            $model->setState( 'filter_name_exact', $tag );
+	            $tag_id = $model->getResult();
+	            
+	            // add new tag if the tag doesn't exsist
+	            if( empty($tag_id) )
+	            {
+	                $tags_table = $model->getTable();
+	                $tags_table->tag_name = $tag;
+	                $tags_table->save();
+	                $tag_id = $tags_table->tag_id;
+	            }
+	            
+	            // add new relationship
+	            $relations_table = JTable::getInstance('Relationships', 'TagsTable');
+	            $relations_table->tag_id = $tag_id;
+	            $relations_table->scope_id = $this->getScopeId( $scope );
+	            $relations_table->item_value = $identifier;
+	            $relations_table->save();	            
+	        }
+
+	    }
 	}
 }

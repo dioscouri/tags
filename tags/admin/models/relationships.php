@@ -26,6 +26,7 @@ class TagsModelRelationships extends TagsModelBase
         $filter_item        = $this->getState('filter_item');
         $filter_item_exact  = $this->getState('filter_item_exact');
         $filter_alias       = $this->getState('filter_alias');
+        $filter_scope_identifier = $this->getState('filter_scope_identifier');
         
        	if ($filter) 
        	{
@@ -74,6 +75,11 @@ class TagsModelRelationships extends TagsModelBase
     	if (strlen($filter_scopeid))
         {
             $query->where('scope.scope_id = '.(int) $filter_scopeid);
+        }
+        
+        if (strlen($filter_scope_identifier))
+        {
+            $query->where("scope.scope_identifier = '". $this->getDbo()->getEscaped( $filter_scope_identifier ) . "'" );
         }
        	
         if (strlen($filter_scope))
@@ -126,9 +132,9 @@ class TagsModelRelationships extends TagsModelBase
         $query->select( $fields );
     }
     
-	public function getList()
+	public function getList($refresh = false)
 	{
-		$list = parent::getList(); 
+		$list = parent::getList($refresh); 
 
 		foreach(@$list as $item)
 		{

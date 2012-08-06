@@ -12,11 +12,11 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
-if ( !class_exists('Tags') ) 
+if ( !class_exists('Tags') ) {
     JLoader::register( "Tags", JPATH_ADMINISTRATOR.DS."components".DS."com_tags".DS."defines.php" );
+}
 
-
-class TagsHelperContent extends DSCHelperDiagnostics
+class TagsHelperContent extends JObject
 {
 	/**
      * Gets content scope id

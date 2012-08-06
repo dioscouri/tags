@@ -15,6 +15,10 @@ Tags::load('TagsViewBase', 'views._base');
 
 class TagsViewTags extends TagsViewBase 
 {
-    
-    
+    public function _defaultToolbar()
+    {
+        JToolBarHelper::publishList( "admin_only.enable", "Admin Only" );
+        JToolBarHelper::unpublishList( "admin_only.disable", "Visible to Public" );
+        parent::_defaultToolbar();
+    }    
 }

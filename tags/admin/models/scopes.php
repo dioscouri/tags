@@ -92,13 +92,8 @@ class TagsModelScopes extends TagsModelBase
         }
     }
         	
-	public function getList()
-	{
-		$list = parent::getList(); 
-		foreach(@$list as $item)
-		{
-			$item->link = 'index.php?option=com_tags&view=scopes&task=edit&id='.$item->scope_id;
-		}
-		return $list;
-	}
+	protected function prepareItem( &$item, $key=0, $refresh=false )
+    {
+		$item->link = 'index.php?option=com_tags&view=scopes&task=edit&id='.$item->scope_id;
+    }
 }

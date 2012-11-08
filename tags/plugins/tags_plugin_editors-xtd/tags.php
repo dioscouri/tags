@@ -19,7 +19,7 @@ class plgButtonTags extends DSCPlugin
     
     function __construct( &$subject, $params )
     {
-        $editor = &JFactory::getEditor();
+        $editor = JFactory::getEditor();
         parent::__construct( $subject, $params );
     }
     

@@ -95,19 +95,15 @@ class TagsModelTags extends TagsModelBase
             $query->where('tbl.admin_only = '.(int) $filter_admin);
         }
     }
-        	
-	public function getList()
-	{
-		$list = parent::getList(); 
-		foreach(@$list as $item)
-		{
-			$item->link = 'index.php?option=com_tags&view=tags&task=edit&id='.$item->tag_id;
+	protected function prepareItem( &$item, $key=0, $refresh=false )
+    {
+		$item->link = 'index.php?option=com_tags&view=tags&task=edit&id='.$item->tag_id;
 			$item->link_view = 'index.php?option=com_tags&view=relationships&filter_tagid='.$item->tag_id;
 			$item->link_alias = 'index.php?option=com_tags&view=tag&tag='.$item->tag_alias;
 			$item->link_id = 'index.php?option=com_tags&view=tag&id='.$item->tag_id;
-		}
-		return $list;
-	}
+    }
+        		
+	
 	
 	function getMaxUses()
 	{

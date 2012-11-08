@@ -21,7 +21,7 @@ class TagsGrid extends DSCGrid
 	 * @param	string	The selected ordering
 	 * @param	string	An optional task override
 	 */
-	public static function sort( $title, $order, $direction = 'asc', $selected = 0 )
+	/*public static function sort( $title, $order, $direction = 'asc', $selected = 0 )
 	{
 		JHTML::_('script', 'tags.js', 'media/com_tags/js/');
 		
@@ -40,5 +40,5 @@ class TagsGrid extends DSCGrid
 		return $html;
 	}
 	
-	
+	*/
 }

@@ -91,9 +91,10 @@ class TagsModelScopes extends TagsModelBase
             $query->where('LOWER(tbl.scope_table_name_field) LIKE '.$key);
         }
     }
-        	
 	protected function prepareItem( &$item, $key=0, $refresh=false )
     {
 		$item->link = 'index.php?option=com_tags&view=scopes&task=edit&id='.$item->scope_id;
     }
+        	
+	
 }

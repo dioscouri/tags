@@ -132,20 +132,16 @@ class TagsModelRelationships extends TagsModelBase
         $query->select( $fields );
     }
     
-	public function getList($refresh = false)
-	{
-		$list = parent::getList($refresh); 
-
-		foreach(@$list as $item)
-		{
-		    $item->item_name = $this->getItemName( $item );
+	protected function prepareItem( &$item, $key=0, $refresh=false )
+    {
+        	$item->item_name = $this->getItemName( $item );
 			$item->link = 'index.php?option=com_tags&view=relationships&task=edit&id='.$item->relationship_id;
 			$item->link_view = $item->scope_url . $item->item_value;
 			$item->link_alias = 'index.php?option=com_tags&view=tag&tag='.$item->tag_alias;
-		}
-
-		return $list;
-	}
+    }
+	
+	
+	
 	
 	function getItemName( $item='' )
 	{

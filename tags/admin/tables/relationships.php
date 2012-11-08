@@ -64,9 +64,9 @@ class TagsTableRelationships extends DSCTable
 		return true;
 	}
 	
-	function save()
+	function save($src='', $orderingFilter = '', $ignore = '')
 	{
-	    if ($return = parent::save())
+	    if ($return = parent::save($src, $orderingFilter, $ignore ))
 	    {
 	        if (!empty($this->_isNew))
 	        {

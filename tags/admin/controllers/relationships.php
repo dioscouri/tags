@@ -49,15 +49,15 @@ class TagsControllerRelationships extends TagsController
         return $state;
     }
     
-    function display()
+    function display($cachable=false, $urlparams = false)
     {
         $viewType   = JFactory::getDocument()->getType();
         $viewName   = JRequest::getCmd( 'view', $this->getName() );
         $viewLayout = JRequest::getCmd( 'layout', 'default' );
-        $view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath) );
+        $view =  $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath) );
         
         $this->_setModelState();
-        $model =& $this->getModel( $this->get('suffix') );
+        $model = $this->getModel( $this->get('suffix') );
         
         $tag_model = $this->getModel( 'tags' );
         $tag = $tag_model->getTable();
@@ -68,7 +68,7 @@ class TagsControllerRelationships extends TagsController
         }
         $view->assign( 'tag', $tag );
         
-        parent::display();
+        parent::display($cachable, $urlparams);
     }
 }
 

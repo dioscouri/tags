@@ -33,14 +33,11 @@ class TagsModelTools extends DSCModel
 		$query->where("LOWER(tbl.folder) = 'tags'");
 		$query->where("tbl.element LIKE 'tool_%'");
     }
+	
+	protected function prepareItem( &$item, $key=0, $refresh=false )
+    {
+        	$item->link = 'index.php?option=com_tags&view=tools&task=view&id='.$item->id;
+    }
     	
-	public function getList()
-	{
-		$list = parent::getList(); 
-		foreach($list as $item)
-		{
-			$item->link = 'index.php?option=com_tags&view=tools&task=view&id='.$item->id;
-		}
-		return $list;
-	}
+	
 }

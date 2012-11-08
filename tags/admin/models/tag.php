@@ -15,10 +15,10 @@ Tags::load( 'TagsModelRelationships', 'models.relationships' );
 
 class TagsModelTag extends TagsModelRelationships 
 {
-    function getTable()
+	function getTable($name='Relationships', $prefix='TagsTable', $options = array())
     {
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'tables' );
-        $table = JTable::getInstance( 'Relationships', 'TagsTable' );
-        return $table;
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tags/tables' );
+        return parent::getTable($name, $prefix, $options);
     }
+		
 }

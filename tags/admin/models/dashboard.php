@@ -11,12 +11,13 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+
 class TagsModelDashboard extends DSCModel 
 {
-	function getTable()
-	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'tables' );
-		$table = JTable::getInstance( 'Config', 'TagsTable' );
-		return $table;
-	}
+	 function getTable($name='Config', $prefix='TagsTable', $options = array())
+    {
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tags/tables' );
+        return parent::getTable($name, $prefix, $options);
+    }	
+		
 }

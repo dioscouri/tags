@@ -25,9 +25,9 @@ class TagsViewBase extends DSCViewAdmin
 	function display($tpl=null)
 	{
 		
-        Tags::load( 'TagsGrid', 'library.grid' );
+       
 		Tags::load( 'TagsSelect', 'library.select' );	
-		
+		DSC::loadBootstrap(1, '2.2.1');
 		parent::display($tpl);
 		
 	}

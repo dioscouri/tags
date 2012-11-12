@@ -50,6 +50,8 @@ DSCLoader::discover('TagsHelper', $parentPath, true);
 $parentPath = JPATH_ADMINISTRATOR . '/components/com_tags/library';
 DSCLoader::discover('Tags', $parentPath, true);
 
+JHTML::_('script', 'common.js', 'media/dioscouri/js/');
+JHTML::_('stylesheet', 'common.css', 'media/dioscouri/css/');
 // load the plugins
 JPluginHelper::importPlugin( 'tags' );
 

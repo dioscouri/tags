@@ -110,7 +110,7 @@
 					</td>
 					<td style="vertical-align: top; max-width: 30%;">
 						
-						<?php echo TagsGrid::pagetooltip( JRequest::getVar('view') ); ?>
+						<?php echo DSCGrid::pagetooltip( JRequest::getVar('view') ); ?>
 						
 						<div id='onDisplayRightColumn_wrapper'>
 							<?php

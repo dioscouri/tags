@@ -18,6 +18,7 @@ class Tags extends DSC
     protected $_versiontype    = 'community';
     protected $_copyrightyear 	= '2011';
     protected $_min_php		= '5.3';
+	public $use_bootstrap	= 		'1';	
 	var $show_linkback						= '1';
 	var $amigosid                           = '';
 	var $page_tooltip_dashboard_disabled	= '0';

@@ -4,9 +4,8 @@
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" enctype="multipart/form-data" >
 
-	<fieldset>
-		<legend><?php echo JText::_('Form'); ?></legend>
-			<table class="admintable">
+
+			<table class="table table-striped table-bordered">
 				<tr>
 					<td style="width: 100px; text-align: right;" class="key">
 						<?php echo JText::_( 'Tag ID' ); ?>:
@@ -32,14 +31,14 @@
                         <?php echo JText::_( 'Item Value' ); ?>:
                     </td>
                     <td>
-                        <input name="item_value" value="<?php echo @$row->item_value; ?>" size="75" maxlength="250" type="text" />
+                        <input name="item_value" value="<?php echo @$row->item_value; ?>"  maxlength="250" type="text" class="input-small" />
                     </td>
                     <td>
-                        <?php echo JText::_( "TAGS RELATIONSHIPS ITEM VALUE TIP" ); ?>
+                        <?php // echo JText::_( "TAGS RELATIONSHIPS ITEM VALUE TIP" ); ?>
                     </td>
                 </tr>
 			</table>
 			<input type="hidden" name="id" value="<?php echo @$row->relationship_id; ?>" />
 			<input type="hidden" name="task" value="" />
-	</fieldset>
+
 </form>

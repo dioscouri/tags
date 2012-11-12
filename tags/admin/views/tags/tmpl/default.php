@@ -6,21 +6,11 @@
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
-	<?php echo TagsGrid::pagetooltip( JRequest::getVar('view') ); ?>
+	<?php echo DSCGrid::pagetooltip( JRequest::getVar('view') ); ?>
 	
-    <table>
-        <tr>
-            <td align="left" width="100%">
-            </td>
-            <td nowrap="nowrap">
-                <input name="filter" value="<?php echo @$state->filter; ?>" />
-                <button onclick="this.form.submit();"><?php echo JText::_('Search'); ?></button>
-                <button onclick="Dsc.resetFormFilters(this.form);"><?php echo JText::_('Reset'); ?></button>
-            </td>
-        </tr>
-    </table>
+ 		<?php echo DSCGrid::searchform(@$state->filter ) ?>
 
-	<table class="adminlist" style="clear: both;">
+	<table class="table table-striped table-bordered" style="clear: both;">
 		<thead>
             <tr>
                 <th style="width: 5px;">
@@ -30,16 +20,16 @@
                 	<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( @$items ); ?>);" />
                 </th>
                 <th style="width: 50px;">
-                	<?php echo TagsGrid::sort( 'ID', "tbl.tag_id", @$state->direction, @$state->order ); ?>
+                	<?php echo DSCGrid::sort( 'ID', "tbl.tag_id", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="text-align: left;">
-                	<?php echo TagsGrid::sort( 'Name', "tbl.tag_name", @$state->direction, @$state->order ); ?>
+                	<?php echo DSCGrid::sort( 'Name', "tbl.tag_name", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo TagsGrid::sort( 'Uses', "tbl.uses", @$state->direction, @$state->order ); ?>
+                    <?php echo DSCGrid::sort( 'Uses', "tbl.uses", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 50px;">
-                    <?php echo TagsGrid::sort( 'Admin Only?', "tbl.admin_only", @$state->direction, @$state->order ); ?>
+                    <?php echo DSCGrid::sort( 'Admin Only?', "tbl.admin_only", @$state->direction, @$state->order ); ?>
                 </th>
                 <th style="width: 150px;">
                     
@@ -47,28 +37,31 @@
             </tr>
             <tr class="filterline">
                 <th colspan="3">
-                	<?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
-                	<div class="range">
-	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("From"); ?>:</span> <input id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input" />
-	                	</div>
-	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_("To"); ?>:</span> <input id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input" />
-	                	</div>
-                	</div>
-                </th>
-                <th style="text-align: left;">
-                	<input id="filter_name" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
-                </th>
-                <th style="text-align: center;">
-                    <div class="range">
+                	<?php $attribs = array('class' => 'inputbox', 'onchange' => 'document.adminForm.submit();'); ?>
+                	 <div class="range">
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("From"); ?>:</span> <input name="filter_uses_from" value="<?php echo @$state->filter_uses_from; ?>" size="5" class="input" />
+                            <input type="text" placeholder="<?php echo JText::_("From"); ?>" id="filter_id_from" name="filter_id_from" value="<?php echo @$state->filter_id_from; ?>" size="5" class="input input-tiny" />
                         </div>
                         <div class="rangeline">
-                            <span class="label"><?php echo JText::_("To"); ?>:</span> <input name="filter_uses_to" value="<?php echo @$state->filter_uses_to; ?>" size="5" class="input" />
+                            <input type="text" placeholder="<?php echo JText::_("To"); ?>" id="filter_id_to" name="filter_id_to" value="<?php echo @$state->filter_id_to; ?>" size="5" class="input input-tiny" />
                         </div>
                     </div>
+                
+    
+                </th>
+                <th style="text-align: left;">
+                	<input id="filter_name" type="text" name="filter_name" value="<?php echo @$state->filter_name; ?>" size="25"/>
+                </th>
+                <th style="text-align: center;">
+                	 <div class="range">
+                        <div class="rangeline">
+                            <input type="text" placeholder="<?php echo JText::_("From"); ?>" id="filter_id_from" name="filter_uses_from" value="<?php echo @$state->filter_uses_from; ?>" size="5" class="input input-tiny" />
+                        </div>
+                        <div class="rangeline">
+                            <input type="text" placeholder="<?php echo JText::_("To"); ?>" id="filter_id_to" name="filter_uses_to" value="<?php echo @$state->filter_uses_to; ?>" size="5" class="input input-tiny" />
+                        </div>
+                    </div>
+                   
                 </th>
                 <th>
                     <?php echo TagsSelect::booleans( @$state->filter_admin, 'filter_admin', $attribs, 'filter_admin', true, null, 'Yes', 'No' ); ?>
@@ -100,7 +93,7 @@
 					<?php echo $i + 1; ?>
 				</td>
 				<td style="text-align: center;">
-					<?php echo TagsGrid::checkedout( $item, $i, 'tag_id' ); ?>
+					<?php echo DSCGrid::checkedout( $item, $i, 'tag_id' ); ?>
 				</td>
 				<td style="text-align: center;">
 					<a href="<?php echo $item->link; ?>">
@@ -118,7 +111,7 @@
 					<?php echo $item->uses; ?>
 				</td>
                 <td style="text-align: center;">
-					<?php echo TagsGrid::enable( $item->admin_only, $i, 'admin_only.' ); ?>
+					<?php echo DSCGrid::enable( $item->admin_only, $i, 'admin_only.' ); ?>
 				</td>
                 <td style="text-align: center;">
                     [

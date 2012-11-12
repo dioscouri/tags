@@ -36,10 +36,7 @@ class TagsViewConfig extends TagsViewBase
 	 **/
 	function _default($tpl = null) 
 	{
-		//Tags::load( 'DSCSelect', 'library.select' );
-		Tags::load( 'TagsGrid', 'library.grid' );
-		//Tags::load( 'DSCTools', 'library.tools' );
-
+		
 		// check config
 			$row = TagsConfig::getInstance();
 			$this->assign( 'row', $row );
@@ -53,7 +50,7 @@ class TagsViewConfig extends TagsViewBase
 	        $items = DSCTools::getPlugins();
 			for ($i=0; $i<count($items); $i++) 
 			{
-				$item = &$items[$i];
+				$item = $items[$i];
 				// Check if they have an event
 				if ($hasEvent = DSCTools::hasEvent( $item, 'onListConfigTags' )) {
 					// add item to filtered array

@@ -1,0 +1,9 @@
+cfg.name=tags
+cfg.versionDir=
+cfg.buildDir=packages
+cfg.localhostRoot=../insideschools.org/site/
+cfg.xmlfile=build.xml
+ftp.server=
+ftp.user=
+ftp.password=
+ftp.dir=

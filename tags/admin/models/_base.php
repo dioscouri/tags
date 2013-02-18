@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.filter.filterinput' );
 jimport( 'joomla.application.component.model' );
-Tags::load( 'TagsQuery', 'library.query' );
+
 
 class TagsModelBase extends DSCModel
 {
@@ -29,7 +29,7 @@ class TagsModelBase extends DSCModel
      */
     function getTable($name='', $prefix='TagsTable', $options = array())
     {
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tags/tables' );
         return parent::getTable($name, $prefix, $options);
     }
 

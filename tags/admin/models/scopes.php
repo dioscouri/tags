@@ -10,6 +10,10 @@
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
+// Check the registry to see if our Tags class has been overridden
+if ( !class_exists('Tags') ) 
+    JLoader::register( "Tags", JPATH_ADMINISTRATOR."/components/com_tags/defines.php" );
+
 Tags::load( 'TagsModelBase', 'models._base' );
 class TagsModelScopes extends TagsModelBase   
 {

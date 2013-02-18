@@ -11,13 +11,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 /** Import library dependencies */
-JLoader::register('K2Plugin', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_k2'.DS.'lib'.DS.'k2plugin.php');
+JLoader::register('K2Plugin', JPATH_ADMINISTRATOR.'/components/com_k2/lib/k2plugin.php');
 
 class plgK2Tags extends K2Plugin
 {
     var $_element = 'tags';
     var $pluginName = 'tags';
-	var $pluginNameHumanReadable = 'K2 synch with Tags';
+    var $pluginNameHumanReadable = 'K2 synch with Tags';
     
     function __construct( &$subject, $params )
     {
@@ -56,88 +56,88 @@ class plgK2Tags extends K2Plugin
      */
     function onAfterK2Save (& $item, $isNew)
     {
-    	$db = &JFactory::getDBO();
-    	
-    	$item_id = $item->id;
-    	$scope_id = $this->getK2ScopeId();
-    	
-    	$query = "SELECT tagID FROM #__k2_tags_xref WHERE itemID = ". $item_id;
-    	$db->setQuery($query);
+        $db = &JFactory::getDBO();
+        
+        $item_id = $item->id;
+        $scope_id = $this->getK2ScopeId();
+        
+        $query = "SELECT tagID FROM #__k2_tags_xref WHERE itemID = ". $item_id;
+        $db->setQuery($query);
         $tagIDs = $db->loadResultArray();
         
-        JLoader::register('TagsHelperTags', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'helpers'.DS.'tags.php');
+        JLoader::register('TagsHelperTags', JPATH_ADMINISTRATOR.'/components/com_tags/helpers/tags.php');
         $helper = new TagsHelperTags();
         
         if( !empty( $tagIDs ) )
-        {        			
-        	// add tags
-	        foreach( $tagIDs as $tagID )
-	        {
-	        	$query = "SELECT * FROM #__k2_tags WHERE id = ". $tagID;
-		    	$db->setQuery($query);
-		        $k2_tag = $db->loadObject();
-		        
-		        if( !empty($k2_tag) && $k2_tag->published )
-		        {		        	
-	        		$added_tag_id = $helper->checkTagId( $k2_tag->name ); 
-	        		
-	        		if( !empty( $added_tag_id ) )
-	        		{        			
-	        			$helper->addRelationship( $added_tag_id, $scope_id, $item_id );
-	        		}
-		        }
-	        }
-	        
-	        // delete relationships
-	       	$tags = array();	        
-	        foreach( $tagIDs as $tagID )
-	        {
-	        	$query = "SELECT name FROM #__k2_tags WHERE id = ". $tagID;
-		    	$db->setQuery($query);
-		        $tags[] =  $db->loadResult();
-	        }
-	        $helper->purgeRelationships( $tags, $item_id, $scope_id );
+        {                   
+            // add tags
+            foreach( $tagIDs as $tagID )
+            {
+                $query = "SELECT * FROM #__k2_tags WHERE id = ". $tagID;
+                $db->setQuery($query);
+                $k2_tag = $db->loadObject();
+                
+                if( !empty($k2_tag) && $k2_tag->published )
+                {                   
+                    $added_tag_id = $helper->checkTagId( $k2_tag->name ); 
+                    
+                    if( !empty( $added_tag_id ) )
+                    {                   
+                        $helper->addRelationship( $added_tag_id, $scope_id, $item_id );
+                    }
+                }
+            }
+            
+            // delete relationships
+            $tags = array();            
+            foreach( $tagIDs as $tagID )
+            {
+                $query = "SELECT name FROM #__k2_tags WHERE id = ". $tagID;
+                $db->setQuery($query);
+                $tags[] =  $db->loadResult();
+            }
+            $helper->purgeRelationships( $tags, $item_id, $scope_id );
         }
-        	else 
-        {        	
-        	// delete all relationships for this item
-			$helper->deleteAllRelationships( $item_id, $scope_id );        
+            else 
+        {           
+            // delete all relationships for this item
+            $helper->deleteAllRelationships( $item_id, $scope_id );        
         }
     }    
     
-	/**
+    /**
      * Check K2 scope
-	 *  
+     *  
      * @param void
      * @return unknown_type
      */    
     function getK2ScopeId()
     {
-    	JModel::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'models' );
-	    $model = JModel::getInstance( 'Scopes', 'TagsModel' );
-		$model->setState( 'select', 'tbl.scope_id' );
-		$model->setState( 'filter_name', 'K2 Item' );
-		$model->setState( 'filter_identifier', 'com_k2.item' );
-		$model->setState( 'filter_url', 'index.php?option=com_k2&view=item&id=' );
-		$model->setState( 'filter_table', '#__k2_items' );
-		$model->setState( 'filter_table_field', 'id' );
-		$model->setState( 'filter_table_name_field', 'title' );
-		$scope_id = $model->getResult();
-		
-		if (empty($scope_id)) { 
-		
-			$table = $model->getTable();
-			$table->scope_name			   = 'K2 Item';
-			$table->scope_identifier       = 'com_k2.item';
-        	$table->scope_url              = 'index.php?option=com_k2&view=item&id=';
-       		$table->scope_table            = '#__k2_items';
-        	$table->scope_table_field      = 'id';
-        	$table->scope_table_name_field = 'title';
-		
-			$table->save();
-			
-			$scope_id = $table->scope_id;
-		}
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tags/models' );
+        $model = JModel::getInstance( 'Scopes', 'TagsModel' );
+        $model->setState( 'select', 'tbl.scope_id' );
+        $model->setState( 'filter_name', 'K2 Item' );
+        $model->setState( 'filter_identifier', 'com_k2&view=item' );
+        $model->setState( 'filter_url', 'index.php?option=com_k2&view=item&id=' );
+        $model->setState( 'filter_table', '#__k2_items' );
+        $model->setState( 'filter_table_field', 'id' );
+        $model->setState( 'filter_table_name_field', 'title' );
+        $scope_id = $model->getResult();
+        
+        if (empty($scope_id)) { 
+        
+            $table = $model->getTable();
+            $table->scope_name             = 'K2 Item';
+            $table->scope_identifier       = 'com_k2&view=item';
+            $table->scope_url              = 'index.php?option=com_k2&view=item&id=';
+            $table->scope_table            = '#__k2_items';
+            $table->scope_table_field      = 'id';
+            $table->scope_table_name_field = 'title';
+        
+            $table->save();
+            
+            $scope_id = $table->scope_id;
+        }
         
         return $scope_id;
     }
@@ -150,9 +150,9 @@ class plgK2Tags extends K2Plugin
      */
     function k2_onAfterDeleteItem( $item_id )
     {
-    	$scope_id = $this->getK2ScopeId();
-    	
-    	JLoader::register('TagsHelperTags', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_tags'.DS.'helpers'.DS.'tags.php');
+        $scope_id = $this->getK2ScopeId();
+        
+        JLoader::register('TagsHelperTags', JPATH_ADMINISTRATOR.'/components/com_tags/helpers/tags.php');
         $helper = new TagsHelperTags();
         
         $helper->deleteAllRelationships( $item_id, $scope_id );
